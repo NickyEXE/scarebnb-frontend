@@ -46,7 +46,10 @@ class House {
     main.innerHTML = ""
     const houseContainer = document.createElement("div")
     houseContainer.id = "house-container"
-    main.appendChild(houseContainer)
+    const addHouse = document.createElement("button")
+    addHouse.innerText = "List a New Haunted House"
+    addHouse.addEventListener("click", modal.open)
+    main.append(houseContainer, addHouse)
     this.all.forEach(house => house.renderCard())
     houseContainer.addEventListener("click", this.handleIndexClick)
   }
