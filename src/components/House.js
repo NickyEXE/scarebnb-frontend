@@ -4,6 +4,9 @@ class House {
 
   constructor(data){
     this.data = data
+    // this.data.apartments === [{}, {}, {}]
+    // [Apartment, Apartment, Apartment]
+    this.apartments = this.data.apartments.map(apartment => new Apartment(apartment, this))
     this.constructor.all.push(this)
   }
 
@@ -16,20 +19,33 @@ class House {
       <p>${address}</p>
       <p>${city}, ${state}</p>
       <p>Lightly haunted by: ${haunting}</p>
+      <div class="container"></div>
     </div>
     <button id="goBack">Go Back</button>
     `
     document.getElementById("goBack").addEventListener("click", House.renderIndex)
+    this.apartments.forEach(apartment => apartment.render())
   }
 
   renderCard = () => {
     const { name, city, state,  imageUrl, id } = this.data
     document.getElementById("house-container").innerHTML += `
-    <div class="house-card" data-id=${id}>
+    <div class="house-card card" data-id=${id}>
       <img src=${imageUrl} alt=${name}/>
       <p class="title">${name}</p>
       <p>${city}, ${state}</p>
+      <p class="number-of-listings">Current number of listings: ${this.apartments.length}</p>
     </div>`
+  }
+
+  renderAptData = () => {
+    modal.open()
+    modal.main.innerHTML = ""
+    const apartmentList = document.createElement("ul")
+    modal.main.appendChild(apartmentList)
+    this.apartments.forEach(apartment => {
+      apartmentList.innerHTML += `<li>${apartment.data.unit}: $${apartment.data.rent}</li>`
+    })
   }
 
   static handleSubmit = (e) => {
@@ -88,6 +104,7 @@ class House {
     main.innerHTML = ""
     const houseContainer = document.createElement("div")
     houseContainer.id = "house-container"
+    houseContainer.classList.add("container")
     const addHouse = document.createElement("button")
     addHouse.innerText = "List a New Haunted House"
     addHouse.addEventListener("click", this.openHouseForm)
@@ -100,6 +117,9 @@ class House {
     if (e.target.tagName == "IMG" || e.target.classList.contains("title")){
       const id = e.target.closest(".house-card").dataset.id
       this.find(id).renderShow()
+    } else if (e.target.classList.contains("number-of-listings")){
+      const id = e.target.closest(".house-card").dataset.id
+      this.find(id).renderAptData()
     }
   }
 
