@@ -18,11 +18,16 @@ House:
 
 Apartment:
 - Unit
-- Bedrooms
-- Bathrooms
-- Rent
+- Bedrooms - integer
+- Bathrooms - integer
+- Rent - integer
 - Image
-- house_id
+- hazards
+- house_id - id
+
+Monday 9/20: Beginning of break-week
+Monday: 9/27: Beginning of React
+Friday 10/8: Project due
 
 Here's the CSS I used:
 
