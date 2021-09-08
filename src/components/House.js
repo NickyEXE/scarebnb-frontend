@@ -11,7 +11,7 @@ class House {
   }
 
   renderShow = () => {
-    const { name, address, city, state, haunting, imageUrl } = this.data
+    const { name, address, city, state, haunting, imageUrl, username } = this.data
     document.getElementById("main").innerHTML = `
     <div class="show">
       <h1>${name}</h1>
@@ -19,6 +19,7 @@ class House {
       <p>${address}</p>
       <p>${city}, ${state}</p>
       <p>Lightly haunted by: ${haunting}</p>
+      <p>Listed by: ${username}</p>
       <div class="container"></div>
     </div>
     <button id="goBack">Go Back</button>
@@ -94,6 +95,7 @@ class House {
 
   static getHouses = () => {
     api.getHouses().then(houses => {
+      House.all = []
       houses.forEach(house => new House(house))
       this.renderIndex()
     })
